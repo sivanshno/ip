@@ -13,31 +13,42 @@ public class Agus {
         }
     }
 
-    // helper function to add, lists history of inputs
-    public static void listHistory( String[] inputHistory, int inputHistorySize){
-        for ( int i = 0; i < inputHistorySize; i += 1){
-            System.out.println( i+1 + ". " + inputHistory[i]);
+    public static int extractNumber(String userInput){
+        String [] words = userInput.split(" ");
+        return Integer.parseInt(words[1]);
+    }
+    // helper function to determine whether the user input is a command
+    public static boolean isCommand(String userInput){
+        if ( userInput.equals("list") || userInput.equals("bye") || userInput.equals("") || userInput.startsWith("mark") || userInput.startsWith("unmark") ){
+            return true;
         }
+        return false;
     }
 
     public static void add() {
         // stores all user inputs
         // has the ability to list them upon the "list" command
         // exits when user inputs "bye"
-        String [] inputHistory = new String[100]; // assumes no more than 100 inputs per session
-        int inputHistorySize = 0;
         String userInput = "";
         Scanner scanner = new Scanner(System.in);
         while (!userInput.equals("bye")) {
             userInput = scanner.nextLine();
             //dealing with non-command inputs
-            if (!( userInput.equals("list") || userInput.equals("bye") || userInput.equals("") ) ){
-                inputHistory[inputHistorySize] = userInput;
-                inputHistorySize += 1;
+            if (!isCommand(userInput) ){
+                new Task(userInput);
+                System.out.println("added: " + userInput);
             }
             //dealing with command inputs
             if (userInput.equals("list") ){
-                listHistory ( inputHistory, inputHistorySize);
+                Task.list();
+            }
+            if (userInput.startsWith("unmark")){
+                int numberToUnmark = extractNumber(userInput);
+                Task.unmark(numberToUnmark);
+            }
+            if (userInput.startsWith("mark")){
+                int numberToMark = extractNumber(userInput);
+                Task.mark(numberToMark);
             }
         }
     }
