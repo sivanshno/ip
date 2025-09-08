@@ -1,6 +1,8 @@
 import java.util.Scanner;
 public class Agus {
 
+    public static final String [] VALID_COMMANDS = { "bye", "list", "mark", "unmark", "todo", "deadline", "event"};
+
     public static void echo() {
         // echoes all use input until the user inputs "bye"
         String userInput = "";
@@ -17,12 +19,56 @@ public class Agus {
         String [] words = userInput.split(" ");
         return Integer.parseInt(words[1]);
     }
+
     // helper function to determine whether the user input is a command
     public static boolean isCommand(String userInput){
-        if ( userInput.equals("list") || userInput.equals("bye") || userInput.equals("") || userInput.startsWith("mark") || userInput.startsWith("unmark") ){
-            return true;
+        for (String command: VALID_COMMANDS){
+            if (userInput.equals(command)){
+                return true;
+            }
         }
         return false;
+    }
+
+    public static void parseInput(String userInput){
+        //extract the first word of the userInput to get command
+
+        int commandEndIndex = userInput.indexOf(" ") ;
+        String command = (commandEndIndex < 0? userInput: userInput.substring(0, commandEndIndex));
+        //debug
+        //System.out.println("command: " + command);
+        String description = userInput.substring(commandEndIndex + 1);
+
+        boolean isValidCommand = isCommand(command);
+        if( !isValidCommand){
+            System.out.println("invalid command");
+            return;
+        }
+
+        if (command.equals("bye")){ //exits when the command is bye
+            return;
+        }
+        if (command.equals("list")){
+            Task.list();
+        }
+        if (command.equals("unmark")){
+            int numberToUnmark = extractNumber(userInput);
+            Task.unmark(numberToUnmark);
+        }
+        if (command.equals("mark")){
+            int numberToMark = extractNumber(userInput);
+            Task.mark(numberToMark);
+        }
+        if (command.equals("todo")){
+            new Todo(description);
+            System.out.println("doing this");
+        }
+        if (command.equals("deadline")){
+            new Deadline(description);
+        }
+        if (command.equals("event")){
+            new Event(description);
+        }
     }
 
     public static void add() {
@@ -33,23 +79,7 @@ public class Agus {
         Scanner scanner = new Scanner(System.in);
         while (!userInput.equals("bye")) {
             userInput = scanner.nextLine();
-            //dealing with non-command inputs
-            if (!isCommand(userInput) ){
-                new Task(userInput);
-                System.out.println("added: " + userInput);
-            }
-            //dealing with command inputs
-            if (userInput.equals("list") ){
-                Task.list();
-            }
-            if (userInput.startsWith("unmark")){
-                int numberToUnmark = extractNumber(userInput);
-                Task.unmark(numberToUnmark);
-            }
-            if (userInput.startsWith("mark")){
-                int numberToMark = extractNumber(userInput);
-                Task.mark(numberToMark);
-            }
+            parseInput(userInput);
         }
     }
 
