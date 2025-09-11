@@ -17,7 +17,7 @@ public class Agus {
 
     public static int extractNumber(String userInput){
         String [] words = userInput.split(" ");
-        return Integer.parseInt(words[1]);
+        return Integer.parseInt(words[0]);
     }
 
     // helper function to determine whether the user input is a command
@@ -30,44 +30,48 @@ public class Agus {
         return false;
     }
 
+    public static void parseCommand(String command, String description){
+        switch (command){
+            case "bye":
+                break;
+            case "list":
+                Task.list();
+                break;
+            case "unmark":
+                int numberToUnmark = extractNumber(description);
+                Task.unmark(numberToUnmark);
+                break;
+            case "mark":
+                int numberToMark = extractNumber(description);
+                System.out.println("marking: " + numberToMark);
+                Task.mark(numberToMark);
+                break;
+            case "todo":
+                new Todo(description);
+                System.out.println("doing this");
+                break;
+            case "deadline":
+                new Deadline(description);
+                break;
+            case "event":
+                new Event(description);
+                break;
+            default:
+                throw new IllegalCommandException("invalid command input");
+        }
+    }
+
     public static void parseInput(String userInput){
         //extract the first word of the userInput to get command
 
         int commandEndIndex = userInput.indexOf(" ") ;
         String command = (commandEndIndex < 0? userInput: userInput.substring(0, commandEndIndex));
         //debug
-        //System.out.println("command: " + command);
         String description = userInput.substring(commandEndIndex + 1);
-
-        boolean isValidCommand = isCommand(command);
-        if( !isValidCommand){
-            System.out.println("invalid command");
-            return;
-        }
-
-        if (command.equals("bye")){ //exits when the command is bye
-            return;
-        }
-        if (command.equals("list")){
-            Task.list();
-        }
-        if (command.equals("unmark")){
-            int numberToUnmark = extractNumber(userInput);
-            Task.unmark(numberToUnmark);
-        }
-        if (command.equals("mark")){
-            int numberToMark = extractNumber(userInput);
-            Task.mark(numberToMark);
-        }
-        if (command.equals("todo")){
-            new Todo(description);
-            System.out.println("doing this");
-        }
-        if (command.equals("deadline")){
-            new Deadline(description);
-        }
-        if (command.equals("event")){
-            new Event(description);
+        try{
+            parseCommand(command,description);
+        } catch (IllegalCommandException e){
+            System.out.println("Sorry, I don't quite understand");
         }
     }
 
