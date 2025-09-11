@@ -31,11 +31,17 @@ public class Task {
         }
     }
 
-    public static void mark(int toMark){
+    public static void mark (int toMark) throws ArrayIndexOutOfBoundsException{
+        if (toMark > taskCount){
+            throw new ArrayIndexOutOfBoundsException();
+        }
         taskHistory[toMark - 1].isDone = true;
         list();
     }
-    public static void unmark(int toUnmark) {
+    public static void unmark(int toUnmark) throws ArrayIndexOutOfBoundsException {
+        if (toUnmark > taskCount){
+            throw new ArrayIndexOutOfBoundsException();
+        }
         taskHistory[toUnmark - 1].isDone = false;
         list();
     }

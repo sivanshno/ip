@@ -58,7 +58,11 @@ public class Agus {
                     System.out.println("I don't think that's a real number");
                     return;
                 }
-                Task.unmark(numberToUnmark);
+                try {
+                    Task.unmark(numberToUnmark);
+                } catch (ArrayIndexOutOfBoundsException e){
+                    System.out.println("You've not created that task yet");
+                }
                 break;
             case "mark":
                 int numberToMark;
@@ -71,7 +75,11 @@ public class Agus {
                     System.out.println("I don't think that's a real number");
                     return;
                 }
-                Task.mark(numberToMark);
+                try {
+                    Task.mark(numberToMark);
+                } catch (ArrayIndexOutOfBoundsException e){
+                    System.out.println("You've not created that task yet");
+                }
                 break;
             case "todo":
                 new Todo(description);
