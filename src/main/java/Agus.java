@@ -1,3 +1,4 @@
+import java.util.InputMismatchException;
 import java.util.Scanner;
 public class Agus {
 
@@ -15,9 +16,18 @@ public class Agus {
         }
     }
 
-    public static int extractNumber(String userInput){
-        String [] words = userInput.split(" ");
-        return Integer.parseInt(words[0]);
+    public static int extractNumber(String userInput) {
+        if (userInput == null || userInput.trim().isEmpty()) {
+            throw new IllegalArgumentException("Input is empty or null");
+        }
+
+        String[] words = userInput.trim().split(" ");
+
+        try {
+            return Integer.parseInt(words[0]);
+        } catch (IllegalArgumentException e) {
+            throw new InputMismatchException();
+        }
     }
 
     // helper function to determine whether the user input is a command
@@ -38,12 +48,29 @@ public class Agus {
                 Task.list();
                 break;
             case "unmark":
-                int numberToUnmark = extractNumber(description);
+                int numberToUnmark;
+                try {
+                    numberToUnmark = extractNumber(description);
+                } catch(ArrayIndexOutOfBoundsException e) {
+                    System.out.println("I think you forgot to tell me what to unmark");
+                    return;
+                } catch (InputMismatchException e){
+                    System.out.println("I don't think that's a real number");
+                    return;
+                }
                 Task.unmark(numberToUnmark);
                 break;
             case "mark":
-                int numberToMark = extractNumber(description);
-                System.out.println("marking: " + numberToMark);
+                int numberToMark;
+                try {
+                    numberToMark = extractNumber(description);
+                } catch( IllegalArgumentException e) {
+                    System.out.println("I think you forgot to tell me what to mark");
+                    return;
+                } catch (InputMismatchException e){
+                    System.out.println("I don't think that's a real number");
+                    return;
+                }
                 Task.mark(numberToMark);
                 break;
             case "todo":
