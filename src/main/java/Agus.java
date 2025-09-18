@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class Agus {
+    public static final String TASK_DATA_FILE_PATH = "./docs/savedTasks.txt";
 
     public static final String [] VALID_COMMANDS = { "bye", "list", "mark", "unmark", "todo", "deadline", "event", "delete"};
 
@@ -133,6 +134,11 @@ public class Agus {
                 }
                 try {
                     Task.delete(numberToDelete);
+                    try {
+                        Task.saveData();
+                    }catch (IOException e){
+                        System.out.println("error saving changes locally");
+                    }
                 } catch (ArrayIndexOutOfBoundsException e){
                     System.out.println("You've not created that task yet");
                 }
