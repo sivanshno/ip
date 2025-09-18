@@ -1,8 +1,14 @@
-import java.util.InputMismatchException;
+import java.io.IOException;
+import java.security.InvalidParameterException;
+import java.util.*;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Scanner;
+
 public class Agus {
 
     public static final String [] VALID_COMMANDS = { "bye", "list", "mark", "unmark", "todo", "deadline", "event"};
+    public static String TASK_DATA_FILE_PATH = "./data/savedTasks.txt";
 
     public static void echo() {
         // echoes all use input until the user inputs "bye"
@@ -60,6 +66,11 @@ public class Agus {
                 }
                 try {
                     Task.unmark(numberToUnmark);
+                    try {
+                        Task.saveData();
+                    }catch (IOException e){
+                        System.out.println("error saving changes locally");
+                    }
                 } catch (ArrayIndexOutOfBoundsException e){
                     System.out.println("You've not created that task yet");
                 }
@@ -77,19 +88,38 @@ public class Agus {
                 }
                 try {
                     Task.mark(numberToMark);
+                    try {
+                        Task.saveData();
+                    }catch (IOException e){
+                        System.out.println("error saving changes locally");
+                    }
                 } catch (ArrayIndexOutOfBoundsException e){
                     System.out.println("You've not created that task yet");
                 }
                 break;
             case "todo":
                 new Todo(description);
-                System.out.println("doing this");
+                try {
+                    Task.saveData();
+                }catch (IOException e){
+                    System.out.println("error saving changes locally");
+                }
                 break;
             case "deadline":
                 new Deadline(description);
+                try {
+                    Task.saveData();
+                }catch (IOException e){
+                    System.out.println("error saving changes locally");
+                }
                 break;
             case "event":
                 new Event(description);
+                try {
+                    Task.saveData();
+                }catch (IOException e){
+                    System.out.println("error saving changes locally");
+                }
                 break;
             default:
                 throw new IllegalCommandException("invalid command input");
@@ -122,8 +152,83 @@ public class Agus {
         }
     }
 
+    public static void parseTaskCSV(String taskCSV) throws InputMismatchException{
+        String[] splitData = taskCSV.split(",");
+        String type = splitData[0];
+        switch (type){
+            case "T":
+                try{
+               new Todo(splitData[1], splitData[2]);}
+                catch (ArrayIndexOutOfBoundsException e){
+                    System.out.println("Task data corrupted");
+                }
+               break;
+            case "D":
+                try{
+                    new Deadline(splitData[1], splitData[2], splitData[3]);}
+                catch (ArrayIndexOutOfBoundsException e){
+                    System.out.println("Task data corrupted");
+                }
+                break;
+            case "E":
+                try{
+                    new Event(splitData[1], splitData[2], splitData[3], splitData[4]);}
+                catch (ArrayIndexOutOfBoundsException e){
+                    System.out.println("Task data corrupted");
+                }
+                break;
+            default:
+                throw new InputMismatchException();
+        }
+
+    }
+
+    protected static void loadData() throws IOException {
+
+        File savedTasks = new File(TASK_DATA_FILE_PATH);
+
+        //check if file already exists, if not, create one
+        try {
+            if (!savedTasks.exists()) {
+                System.out.println("initialising system data files");
+                savedTasks.createNewFile();
+                return;
+            }
+        } catch (IOException e){
+            System.out.println("an error occurred while creating data file for Agus ");
+            throw new IOException();
+        }
+
+        //can assert here that the file does exist, time to retrieve file data
+        Scanner s;
+        try{
+        s = new Scanner(savedTasks);
+        }catch (IOException e){
+            System.out.println("locally stored data not found");
+            return;
+        }
+        try{
+            while (s.hasNextLine()){
+                String taskCSV = s.nextLine();
+                try {
+                    parseTaskCSV(taskCSV);
+                }catch (InputMismatchException e){
+                    System.out.println("invalid task detected");
+                }
+            }
+        }catch (NoSuchElementException e ){
+            System.out.println("error reading locally saved data");
+        }
+    }
+
     public static void main(String[] args) {
         //main function
+        try {
+            Agus.loadData();
+        }catch (IOException e){
+            System.out.println("exiting program");
+            return;
+        }
         System.out.println("Hello! I'm Agus\n what can I do for you?");
         Agus.add();
         System.out.println( "Bye. Hope to see you again soon!");
