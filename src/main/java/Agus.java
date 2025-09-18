@@ -2,7 +2,7 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 public class Agus {
 
-    public static final String [] VALID_COMMANDS = { "bye", "list", "mark", "unmark", "todo", "deadline", "event"};
+    public static final String [] VALID_COMMANDS = { "bye", "list", "mark", "unmark", "todo", "deadline", "event", "delete"};
 
     public static void echo() {
         // echoes all use input until the user inputs "bye"
@@ -83,13 +83,29 @@ public class Agus {
                 break;
             case "todo":
                 new Todo(description);
-                System.out.println("doing this");
                 break;
             case "deadline":
                 new Deadline(description);
                 break;
             case "event":
                 new Event(description);
+                break;
+            case "delete":
+                int numberToDelete;
+                try {
+                    numberToDelete = extractNumber(description);
+                } catch(ArrayIndexOutOfBoundsException e) {
+                    System.out.println("I think you forgot to tell me what to delete");
+                    return;
+                } catch (InputMismatchException e){
+                    System.out.println("I don't think that's a real number");
+                    return;
+                }
+                try {
+                    Task.delete(numberToDelete);
+                } catch (ArrayIndexOutOfBoundsException e){
+                    System.out.println("You've not created that task yet");
+                }
                 break;
             default:
                 throw new IllegalCommandException("invalid command input");
