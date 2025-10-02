@@ -2,6 +2,7 @@ import java.io.File;
 import java.io.IOException;
 import java.time.format.DateTimeParseException;
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
@@ -133,6 +134,17 @@ public class Parser {
                     }
                 } catch (ArrayIndexOutOfBoundsException e){
                     System.out.println("You've not created that task yet");
+                }
+                break;
+            case "find":
+                List<Task> searchResults = Agus.tasks.searchTasks(description);
+                if (searchResults.isEmpty()){
+                    System.out.println("No matching tasks found :( ");
+                    break;
+                }
+                System.out.println("Here are some matching tasks I found in your list");
+                for(Task task : searchResults){
+                    task.printTask();
                 }
                 break;
             default:

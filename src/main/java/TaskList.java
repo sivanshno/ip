@@ -1,4 +1,6 @@
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TaskList {
     private Task[] taskHistory;
@@ -65,6 +67,19 @@ public class TaskList {
         taskCount += 1;
         System.out.println("got it, I've added this task:");
         System.out.println("now you have "+ taskCount + " tasks in your list");
+    }
+
+    public List<Task> searchTasks (String query){
+        query = query.trim();
+        List<Task> searchResults = new ArrayList<>();
+        for (int i = 0; i < taskCount; i += 1){
+            Task currentTask = taskHistory[i];
+            String taskDescription = (currentTask).getDescription();
+            if (taskDescription.contains(query)){
+                searchResults.add(currentTask);
+            }
+        }
+        return searchResults;
     }
 
 }

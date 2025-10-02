@@ -11,14 +11,14 @@ public class Event extends Task {
         int descriptionEndIndex = userInput.indexOf("/");
         description = userInput.substring(0, descriptionEndIndex);
         String startAndEnd = userInput.substring(descriptionEndIndex + 1);
-        int fromEndIndex = startAndEnd.indexOf("/") -2;
-        String fromAsString = startAndEnd.substring(0, fromEndIndex);
-        String toAsString = startAndEnd.substring(fromEndIndex + 4);
+        int fromEndIndex = startAndEnd.indexOf("t") -2;
+        String fromAsString = startAndEnd.substring(4, fromEndIndex);
+        String toAsString = startAndEnd.substring(fromEndIndex + 5);
         try {
             from = new TaskTime(fromAsString);
             to = new TaskTime(toAsString);
         } catch (IllegalArgumentException e) {
-            throw new RuntimeException(e);
+            throw new IllegalArgumentException(e);
         }
         System.out.println("got it, I've added this task:");
         printTask();
