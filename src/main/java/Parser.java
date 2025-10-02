@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.IOException;
+import java.time.format.DateTimeParseException;
 import java.util.InputMismatchException;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
@@ -85,8 +86,13 @@ public class Parser {
                 }
                 break;
             case "deadline":
-                Deadline newDeadline = new Deadline(description);
-                Agus.tasks.addTask(newDeadline);
+                try {
+                    Deadline newDeadline = new Deadline(description);
+                    Agus.tasks.addTask(newDeadline);
+                }catch (IllegalArgumentException e){
+                    System.out.println("unrecognised deadline format!");
+                    break;
+                }
                 try {
                     Agus.tasks.saveData();
                 }catch (IOException e){
@@ -94,8 +100,13 @@ public class Parser {
                 }
                 break;
             case "event":
-                Event newEvent = new Event(description);
-                Agus.tasks.addTask(newEvent);
+                try {
+                    Event newEvent = new Event(description);
+                    Agus.tasks.addTask(newEvent);
+                }catch (IllegalArgumentException e){
+                    System.out.println("unrecognised date format!");
+                    break;
+                }
                 try {
                     Agus.tasks.saveData();
                 }catch (IOException e){

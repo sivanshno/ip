@@ -1,4 +1,70 @@
-package PACKAGE_NAME;
+import java.io.IOException;
 
 public class TaskList {
+    private Task[] taskHistory;
+    private int taskCount = 0;
+    private Storage storage;
+
+    public TaskList(Storage mainStorage){
+        taskHistory = new Task[100];
+        storage = mainStorage;
+    }
+
+    public void list(){
+        for ( int i = 0; i < taskCount; i += 1){
+            Task currentTask = taskHistory[i];
+            currentTask.printTask( i+1);
+        }
+    }
+
+    public void mark (int toMark) throws ArrayIndexOutOfBoundsException{
+        if (toMark > taskCount || toMark < 1){
+            throw new ArrayIndexOutOfBoundsException();
+        }
+        taskHistory[toMark - 1].isDone = true;
+        list();
+    }
+
+    public void unmark(int toUnmark) throws ArrayIndexOutOfBoundsException {
+        if (toUnmark > taskCount || toUnmark < 1){
+            throw new ArrayIndexOutOfBoundsException();
+        }
+        taskHistory[toUnmark - 1].isDone = false;
+        list();
+    }
+
+    public void delete(int toDelete) throws ArrayIndexOutOfBoundsException{
+        //checks if the delete index is valid
+        if (toDelete > taskCount || toDelete < 1){
+            throw new ArrayIndexOutOfBoundsException();
+        }
+
+        Task deletedTask = taskHistory[toDelete - 1]; // temporarily store deleted task
+        taskCount -= 1; // update the number of tasks
+
+        //rearrange the tasks array by moving every task after delete to the index before
+        for ( int i = toDelete - 1; i < taskCount; i += 1){
+            taskHistory[i] = taskHistory[i + 1];
+        }
+
+        System.out.println("Done!I have deleted the Task:");
+        deletedTask.printTask();
+        System.out.println("Now you have " + taskCount + "  tasks in your list");
+    }
+
+    public void saveData() throws IOException{
+        try {
+            storage.saveData(taskCount, taskHistory);
+        } catch (IOException e) {
+            throw new IOException();
+        }
+    }
+
+    public void addTask (Task newTask){
+        taskHistory[taskCount] = newTask;
+        taskCount += 1;
+        System.out.println("got it, I've added this task:");
+        System.out.println("now you have "+ taskCount + " tasks in your list");
+    }
+
 }

@@ -1,6 +1,7 @@
 public class Todo extends Task{
     public Todo(String description){
         super(description);
+        System.out.println("got it, I've added this task:");
         printTask();
     }
 
