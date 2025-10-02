@@ -12,7 +12,6 @@ public class Event extends Task {
         from = startAndEnd.substring(0, fromEndIndex);
         to = startAndEnd.substring(fromEndIndex + 4);
         printTask();
-        System.out.println("now you have "+ Task.taskCount + " tasks in your list");
     }
 
     public Event(String mark, String description, String from, String to){

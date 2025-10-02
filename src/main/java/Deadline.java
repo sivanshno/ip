@@ -8,7 +8,6 @@ public class Deadline extends Task{
         description = userInput.substring(0,dateStartIndex - 5);
         deadline = userInput.substring(dateStartIndex);
         printTask();
-        System.out.println("now you have "+ Task.taskCount + " tasks in your list");
     }
 
     public Deadline(String mark, String description, String deadline){

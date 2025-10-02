@@ -2,7 +2,6 @@ public class Todo extends Task{
     public Todo(String description){
         super(description);
         printTask();
-        System.out.println("now you have "+ Task.taskCount + " tasks in your list");
     }
 
     public Todo(String mark, String description){
