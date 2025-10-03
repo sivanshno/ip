@@ -2,6 +2,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Stores the list of tasks and contains all operations modifying the list
+ *
+ * @author Sivansh
+ * @version 1.0
+ */
 public class TaskList {
     private Task[] taskHistory;
     private int taskCount = 0;
@@ -54,6 +60,9 @@ public class TaskList {
         System.out.println("Now you have " + taskCount + "  tasks in your list");
     }
 
+    /**
+     * Passes the task data to local storage to be saved
+     */
     public void saveData() throws IOException{
         try {
             storage.saveData(taskCount, taskHistory);
@@ -68,6 +77,13 @@ public class TaskList {
         System.out.println("got it, I've added this task:");
         System.out.println("now you have "+ taskCount + " tasks in your list");
     }
+
+    /**
+     * Finds all tasks containing a specific phrase
+     *
+     * @param query the phrase the user wants to search
+     * @return list of all tasks containing that phrase in their description
+     */
 
     public List<Task> searchTasks (String query){
         query = query.trim();

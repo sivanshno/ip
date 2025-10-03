@@ -1,5 +1,11 @@
 import java.util.Scanner;
 
+/**
+ * Serves as the main interface for the user's interaction with the chatbot
+ *
+ * @author Sivansh
+ * @version 1.0
+ */
 public class Ui {
     private Parser parser ;
 
@@ -23,6 +29,9 @@ public class Ui {
         System.out.println("Local storage unreadable or corrupted \n exiting program");
     }
 
+    /**
+     * runs the UI to accept and parse the user inputs and respond accordingly
+     */
     public void run(){
         String userInput = "";
         Scanner scanner = new Scanner(System.in);

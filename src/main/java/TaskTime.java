@@ -6,6 +6,14 @@ import java.time.format.DateTimeParseException;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Stores the all timings mentioned in defining the deadlines and start dates for tasks.
+ * Supports both localDate and localDateTime format and applies whichever one is valid
+ * depending on how the user has defined the time
+ *
+ * @author Sivansh
+ * @version 1.0
+ */
 public class TaskTime {
 
     private static final List<String> DATE_PATTERNS = Arrays.asList(
@@ -55,6 +63,14 @@ public class TaskTime {
         return dateWithTime.format(formatter);
     }
 
+    /**
+     * Parses the user input date and converts it to local date format
+     *
+     * @param input the users date input as a string
+     * @return user input in local date format or null if it is not one of the recognised
+     * date formats
+     */
+
     public LocalDate parseDate (String input) {
         input = input.trim();
         for ( String pattern : DATE_PATTERNS){
@@ -68,6 +84,13 @@ public class TaskTime {
         return null;
     }
 
+    /**
+     * Parses the user input date and converts it to localDateTime format
+     *
+     * @param input the users date input as a string
+     * @return user input in localDateTime format or null if it is not one of the recognised
+     * dateTime formats
+     */
     public LocalDateTime parseDateWithTime (String input) {
         input = input.trim();
         for ( String pattern : DATE_PATTERNS){

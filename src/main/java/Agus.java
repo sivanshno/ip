@@ -1,6 +1,12 @@
 import java.io.IOException;
 import java.util.*;
 
+/**
+ * Represents the chatbot and all of its functions
+ *
+ * @author Sivansh
+ * @version 1.0
+ */
 public class Agus {
 
     private Storage storage;
@@ -13,6 +19,9 @@ public class Agus {
         tasks = new TaskList(storage);
     }
 
+    /**
+     * Method that runs the entire chatbot and handles its startup and shut down
+     */
     public void run (){
         try{
             storage.loadSavedTasks();

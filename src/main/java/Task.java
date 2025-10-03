@@ -1,14 +1,9 @@
-import java.io.FileWriter;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
-import java.time.temporal.ChronoUnit;
-import java.util.Arrays;
-import java.util.List;
-
+/**
+ * Abstract class to serve as a template for the other kinds of tasks
+ *
+ * @author Sivansh
+ * @version 1.0
+ */
 public abstract class Task {
     protected String description;
     protected boolean isDone;
@@ -27,9 +22,20 @@ public abstract class Task {
         }
     }
 
+    /**
+     * Retrives the status of the task( whether it is marked as done or not)
+     *
+     * @return string either containing "X" to signify done or " " to signify not done
+     */
     public String getStatusIcon() {
         return (isDone ? "X" : " "); // mark done task with X
     }
+
+    /**
+     * Retrieves the task description
+     *
+     * @return String containing the task description
+     */
 
     public String getDescription(){
         return this.description;
@@ -43,6 +49,12 @@ public abstract class Task {
         System.out.println("[T] [" + getStatusIcon() + "] " + description);
     }
 
+    /**
+     * converts the contents of the entire object into a string in CSV format to
+     * be stored locally
+     *
+     * @return string containing all information about the object in CSV format
+     */
     public String toCSV (){
         return "task," + this.getStatusIcon() +"," +  this.description;
     }

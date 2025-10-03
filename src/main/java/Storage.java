@@ -6,6 +6,12 @@ import java.util.InputMismatchException;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
+/**
+ * Handles all operations regarding reading to and writing from the local storage
+ *
+ * @author Sivansh
+ * @version 1.0
+ */
 public class Storage {
 
     private File file;
@@ -37,8 +43,13 @@ public class Storage {
         }
     }
 
-
-
+    /**
+     * Reads a task locally saved in csv format and converts it to a task object
+     * and inserts it into the task list
+     *
+     * @param taskCSV task in CSV format
+     * @throws InputMismatchException when the task is not stored in CSV format
+     */
 
     private void parseTaskCSV(String taskCSV) throws InputMismatchException{
         String[] splitData = taskCSV.split(",");
@@ -76,6 +87,14 @@ public class Storage {
         }
 
     }
+
+    /**
+     * Locally saves all task data in csv format
+     *
+     * @param taskCount number of tasks in the list
+     * @param taskHistory array containing all the tasks
+     * @throws IOException when it is unable to write to the file
+     */
 
     public void saveData( int taskCount, Task[] taskHistory) throws IOException {
         fileWriter = new FileWriter( filePath);

@@ -6,13 +6,30 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
+/**
+ * Parses all user inputs passed to it by the chatbot and calls the required
+ * methods to execute the parsed commands
+ *
+ * @author Sivansh
+ * @version 1.0
+ */
 public class Parser {
 
     public Parser(){
        //nothing to do here
     }
 
-    private static int extractNumber(String userInput) {
+    /**
+     * Extracts the numbers in the user input when a particular task number
+     * is commanded to be marked or unmarked
+     *
+     * @param userInput the body of the user input
+     * @return the first number it sees in the user input
+     * @throws IllegalArgumentException when the string is empty or null
+     * @throws InputMismatchException when there isn't a number in the string
+     */
+
+    private static int extractNumber(String userInput) throws IllegalArgumentException, InputMismatchException{
         if (userInput == null || userInput.trim().isEmpty()) {
             throw new IllegalArgumentException("Input is empty or null");
         }
@@ -26,7 +43,15 @@ public class Parser {
         }
     }
 
-    private static void parseCommand(String command, String description){
+    /**
+     * Reads the users command and executes the relevant methods
+     *
+     * @param command the command word in the user input
+     * @param description the rest of the user input
+     * @throws IllegalCommandException if the user's command is invalid
+     */
+
+    private static void parseCommand(String command, String description) throws IllegalCommandException{
         switch (command){
             case "bye":
                 break;
@@ -152,14 +177,20 @@ public class Parser {
         }
     }
 
+    /**
+     * Handles the raw user input and converts it into a command and a body
+     *
+     * @param userInput a string containing the raw user input
+     * @throws IllegalCommandException if the user's command is invalid
+     */
+
     protected void parseInput(String userInput) throws IllegalCommandException{
-        //extract the first word of the userInput to get command
 
         int commandEndIndex = userInput.indexOf(" ") ;
         String command = (commandEndIndex < 0? userInput: userInput.substring(0, commandEndIndex));
-        String description = userInput.substring(commandEndIndex + 1);
+        String body = userInput.substring(commandEndIndex + 1);
         try{
-            parseCommand(command,description);
+            parseCommand(command,body);
         } catch (IllegalCommandException e){
             System.out.println("Sorry, I don't quite understand");
             throw new IllegalCommandException(" ");
