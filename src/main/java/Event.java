@@ -1,5 +1,6 @@
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.InputMismatchException;
 
 /**
  * Represents an event defined by a user and stores its start and end time
@@ -12,12 +13,18 @@ public class Event extends Task {
     private TaskTime from;
     private TaskTime to;
 
-    public Event(String userInput) throws IllegalArgumentException{
+    public Event(String userInput) throws IllegalArgumentException, InputMismatchException {
         super(userInput);
         int descriptionEndIndex = userInput.indexOf("/");
+        if (descriptionEndIndex == Integer.valueOf(-1) ){
+            throw new IllegalArgumentException();
+        }
         description = userInput.substring(0, descriptionEndIndex);
         String startAndEnd = userInput.substring(descriptionEndIndex + 1);
         int fromEndIndex = startAndEnd.indexOf("t") -2;
+        if (fromEndIndex == Integer.valueOf(-3) ){
+            throw new IllegalArgumentException();
+        }
         String fromAsString = startAndEnd.substring(4, fromEndIndex);
         String toAsString = startAndEnd.substring(fromEndIndex + 5);
         try {

@@ -2,6 +2,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.InputMismatchException;
 
 /**
  * represents a deadline defined by a user and stores it
@@ -13,9 +14,12 @@ public class Deadline extends Task{
 
     private TaskTime deadline;
 
-    public Deadline(String userInput) throws IllegalArgumentException{
+    public Deadline(String userInput) throws IllegalArgumentException, InputMismatchException {
         super(userInput);
         int dateStartIndex = userInput.indexOf("/") + 4;
+        if (dateStartIndex == Integer.valueOf(3) ){
+            throw new IllegalArgumentException();
+        }
         description = userInput.substring(0,dateStartIndex - 5);
         String deadlineAsString = userInput.substring(dateStartIndex);
         try {

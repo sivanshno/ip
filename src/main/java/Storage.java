@@ -20,13 +20,14 @@ public class Storage {
     private String filePath;
 
     public Storage (String storageFilePath){
-        file = new File(storageFilePath);
-        filePath = storageFilePath;
+        String home = System.getProperty("user.home");
+        file = new File(home, storageFilePath);
+        filePath = file.getAbsolutePath();
     }
 
-    public void loadSavedTasks() throws FileNotFoundException, IOException, NoSuchElementException{
+    public void loadSavedTasks() throws IOException, NoSuchElementException{
         if (!file.exists()){
-            throw new FileNotFoundException();
+            file.createNewFile();
         }
         try{
             fileReader = new Scanner(file);

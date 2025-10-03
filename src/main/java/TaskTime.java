@@ -32,15 +32,15 @@ public class TaskTime {
             "yyyy-MM-dd HH:mm:ss",
             "dd-MM-yyyy HH:mm",
             "dd MM yyyy HH:mm",
-            "dd/MM/yyyy HH:mm:ss",
-            "yyyy/MM/dd HH:mm:ss",
+            "dd/MM/yyyy HH:mm",
+            "yyyy/MM/dd HH:mm",
             "dd-MM-yyyy hh:mm a",
-            "MM/dd/yyyy hh:mm:ss a",
-            "yyyy-MM-dd hh:mm:ss a",
-            "yyyy-MM-dd'T'HH:mm:ssZ",
-            "yyyy-MM-dd'T'HH:mm:ssXXX",
-            "yyyy-MM-dd'T'HH:mm:ss.SSSZ",
-            "EEE, dd MMM yyyy HH:mm:ss Z"
+            "MM/dd/yyyy hh:mm a",
+            "yyyy-MM-dd hh:mm a",
+            "yyyy-MM-dd'T'HH:mm",
+            "yyyy-MM-dd'T'HH:mm",
+            "yyyy-MM-dd'T'HH:mm",
+            "EEE, dd MMM yyyy HH:mm"
     );
 
     LocalDate date;

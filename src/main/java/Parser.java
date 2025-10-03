@@ -118,6 +118,12 @@ public class Parser {
                 }catch (IllegalArgumentException e){
                     System.out.println("unrecognised deadline format!");
                     break;
+                } catch (InputMismatchException e){
+                    System.out.println(" recheck your deadline format, it is not valid ");
+                    break;
+                }catch (StringIndexOutOfBoundsException e){
+                    System.out.println(" recheck your deadline format, it is not valid ");
+                    break;
                 }
                 try {
                     Agus.tasks.saveData();
@@ -131,6 +137,12 @@ public class Parser {
                     Agus.tasks.addTask(newEvent);
                 }catch (IllegalArgumentException e){
                     System.out.println("unrecognised date format!");
+                    break;
+                } catch (InputMismatchException e){
+                    System.out.println(" recheck your event format, it is not valid ");
+                    break;
+                }catch (StringIndexOutOfBoundsException e){
+                    System.out.println(" recheck your event format, it is not valid ");
                     break;
                 }
                 try {

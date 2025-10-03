@@ -15,7 +15,7 @@ public class Agus {
 
     public Agus(){
         ui = new Ui();
-        storage = new Storage ("data/savedTasks.txt");
+        storage = new Storage ("savedTasks.txt");
         tasks = new TaskList(storage);
     }
 
